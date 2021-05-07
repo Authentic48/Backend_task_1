@@ -1,6 +1,8 @@
 const User = require('../models/userModel.js')
 const asyncHandler = require('express-async-handler')
 const generateWebToken = require('../utility/generateWebToken.js')
+const hashUserId = require('../service/hashing')
+const bcrypt = require('bcryptjs')
 
 // @desc   Auth user & get Token
 //@route   POST /api/users/login
@@ -15,7 +17,8 @@ const authUser = asyncHandler (async (req, res) =>{
          email: user.email,
          name: user.name,
          dateOfBirth: user.dateOfBirth,
-         token: generateWebToken(user._id)
+         token: generateWebToken(user._id),
+         hashedId: bcrypt.hashSync(JSON.stringify(user._id), 8)
 
       })
    }else{
@@ -47,7 +50,9 @@ const registerUser = asyncHandler (async (req, res) =>{
          email: user.email,
          name: user.name,
          dateOfBirth: user.dateOfBirth,
-         token: generateWebToken(user._id)
+         token: generateWebToken(user._id),
+         hashedId: bcrypt.hashSync(JSON.stringify(user._id), 8)
+
       })
    }else{
       res.status(400)
