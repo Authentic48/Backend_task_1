@@ -14,7 +14,7 @@ const authUser = asyncHandler (async (req, res) =>{
          _id : user._id,
          email: user.email,
          name: user.name,
-         dateOfBirth:user.dateOfBirth,
+         dateOfBirth: user.dateOfBirth,
          token: generateWebToken(user._id)
 
       })
@@ -28,7 +28,7 @@ const authUser = asyncHandler (async (req, res) =>{
 //@route   GET /api/users
 //@Access  Public
 const registerUser = asyncHandler (async (req, res) =>{
-   const { name, email, password, dateOfBirth} = req.body;
+   const { name, email, password, dateOfBirth } = req.body;
 
    const userExist = await User.findOne({email})
    if(userExist) {
@@ -39,6 +39,7 @@ const registerUser = asyncHandler (async (req, res) =>{
       name,
       email,
       password,
+      dateOfBirth
    })
    if (user){
       res.status(201).json({
@@ -66,6 +67,7 @@ const getUserById = asyncHandler (async (req, res) =>{
          id : user._id,
          email: user.email,
          name: user.name,
+         dateOfBirth: user.dateOfBirth
       })
 
    }else{
@@ -76,7 +78,7 @@ const getUserById = asyncHandler (async (req, res) =>{
 })
 // @desc    Get all Users
 // @route   GET /api/users
-// @access  Private/Admin
+// @access  Public
 const getUsers = asyncHandler(async (req, res) => {
    const users = await User.find({})
 

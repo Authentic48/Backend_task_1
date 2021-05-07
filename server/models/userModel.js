@@ -18,7 +18,6 @@ const userSchema = mongoose.Schema({
     dateOfBirth:{
         type: Date,
         required: true,
-        trim: true,
     }
 }, {
     timestamps: true
@@ -39,5 +38,4 @@ userSchema.pre('save', async function (next) {
 })
 
 const user = mongoose.model('User', userSchema)
-
 module.exports = user
