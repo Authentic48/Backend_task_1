@@ -1,8 +1,14 @@
 const User = require('../models/userModel.js')
 const asyncHandler = require('express-async-handler')
 const generateWebToken = require('../utility/generateWebToken.js')
-const hashUserId = require('../service/hashing')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const { json } = require('body-parser');
+
+function hashCode(s) {
+   for(var i = 0, h = 0; i < s.length; i++)
+       h = Math.imul(31, h) + s.charCodeAt(i) | 0;
+   return h;
+}
 
 // @desc   Auth user & get Token
 //@route   POST /api/users/login
@@ -18,7 +24,7 @@ const authUser = asyncHandler (async (req, res) =>{
          name: user.name,
          dateOfBirth: user.dateOfBirth,
          token: generateWebToken(user._id),
-         hashedId: bcrypt.hashSync(JSON.stringify(user._id), 8)
+         hashedId: hashCode(JSON.stringify(user._id))
 
       })
    }else{
@@ -51,7 +57,7 @@ const registerUser = asyncHandler (async (req, res) =>{
          name: user.name,
          dateOfBirth: user.dateOfBirth,
          token: generateWebToken(user._id),
-         hashedId: bcrypt.hashSync(JSON.stringify(user._id), 8)
+         hashedId: hashCode(JSON.stringify(user._id))
 
       })
    }else{
